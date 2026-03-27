@@ -1,0 +1,47 @@
+# Memoria de Prácticas: Ingeniería de Servidores
+**Autor:** Paula Rodriguez Montoro
+**Curso:** 2025/2026
+**Repositorio:** [Enlace a mi GitHub](https://github.com/tu-usuario/tu-repo)
+
+---
+
+## BLOQUE 1: Configuración del Entorno y Administración
+
+### Práctica 2: Configuración de LVM y RAID
+
+
+#### Pasos realizados:
+1. Descarga de la ISO.
+2. Configuración de red en modo Puente/NAT.
+3. Creación del usuario administrador.
+4. Configuración de Red en el Servidor (IPs)
+5. Personalización del prompt
+6. Validación de la conectividad
+
+#### Capturas de pantalla:
+![MV: IPs configurada en la tarjeta NAT y Host-Only](img/ip_addr_show_direccionesdelamv.png)
+> *MV: IPs configurada en la tarjeta NAT y Host-Only.*
+
+![Host: IP configurada en la tarjeta Host-Only](img/ipconfig_direccion_host.png)
+> *Host: IP configurada en la tarjeta Host-Only.*
+
+![MV: Ping efectivo al Host.](img/ping_desde_MV_al_Host.png)
+> *MV: Ping efectivo al Host.*
+
+![MV: Ping efectivo a www.ugr.es](img/ping_desde_MV_a_ugr.png)
+> *MV: Ping efectivo a www.ugr.es.*
+
+![Host: Ping efectivo a la MV.](img/ping_desde_Host_a_MV.png)
+> *Host: Ping efectivo a la MV.*
+---
+
+### Práctica 2: Gestión de Usuarios y Permisos
+En esta práctica he configurado los grupos de trabajo y permisos de carpetas.
+
+#### Comandos utilizados:
+```bash
+# Crear un nuevo grupo
+sudo groupadd ingenieros
+
+# Añadir mi usuario al grupo
+sudo usermod -aG ingenieros mi_usuario
