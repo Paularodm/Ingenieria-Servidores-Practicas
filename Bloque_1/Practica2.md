@@ -34,14 +34,14 @@ Para ello utilizaremos las herramientas de RAID y LVM. En particular, raid 1, pa
 * `/dev/sdb /dev/sdc` : Son los "ingredientes" o dispositivos de bloque que hemos añadido previamente.
   
 4. Comprobamos el raid se ha creado correctamente.
-![alt text](P2_estado_del_raid_tras_crearlo_cat.png)
+![alt text](img/P2_estado_del_raid_tras_crearlo_cat.png)
 
 Podemos observar que el raid se ha creado correctamemte pues:
 * `md0 : active raid1 sdc[1] sdb[0]` : Confirma que estan activos y participando en "espejo".
 * `[UU]` :  Ambos discos estan operativos: U (Up)
 
 
-![alt text](P2_estado_raid1_mdadm_detail.png)
+![alt text](img/P2_estado_raid1_mdadm_detail.png)
 
 Tras la ejecución de `mdadm`, se ha verificado mediante `mdadm --detail` que el estado del array es active y que cuenta con dos unidades sincronizadas (`active sync`). Esto cumple con el requisito de proporcionar un mecanismo de respaldo ante fallos físicos en el almacenamiento.
 
@@ -49,4 +49,4 @@ Tras la ejecución de `mdadm`, se ha verificado mediante `mdadm --detail` que el
 
 Para realizar la configuración del RAID y la persistencia en `/etc/mdadm.conf`, se han empleado privilegios de superusuario mediante el comando `sudo`, garantizando así el acceso a los archivos de configuración del sistema y a los dispositivos de bloque.
 
-![alt text](image.png)
+![alt text](img/image.png)
