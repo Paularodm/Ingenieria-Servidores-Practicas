@@ -1,7 +1,7 @@
 # Memoria de Prácticas: Ingeniería de Servidores
 **Autor:** Paula Rodriguez Montoro
 **Curso:** 2025/2026
-**Repositorio:** [Enlace a mi GitHub](https://github.com/tu-usuario/tu-repo)
+**Repositorio:** [Enlace a mi GitHub](https://github.com/Paularodm/Ingenieria-Servidores-Practicas)
 
 ---
 
@@ -35,13 +35,3 @@ El objetivo de esta primera prática es la instalación y configuración inicial
 > *Host: Ping efectivo a la MV.*
 ---
 
-### Práctica 2: Gestión de Usuarios y Permisos
-En esta práctica he configurado los grupos de trabajo y permisos de carpetas.
-
-#### Comandos utilizados:
-```bash
-# Crear un nuevo grupo
-sudo groupadd ingenieros
-
-# Añadir mi usuario al grupo
-sudo usermod -aG ingenieros mi_usuario

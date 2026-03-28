@@ -8,40 +8,45 @@
 ## BLOQUE 1: Configuración del Entorno y Administración
 
 ### Práctica 2: Configuración de LVM y RAID
+Se desea instalar un servicio de gestión documental en el servidor. Se espera que este servicio
+precise de una cantidad espacio de almacenamiento creciente con el tiempo, pudiendo llegar a
+ser considerable. Por otro lado, el contenido será crítico, por lo que se desea proporcionar
+algún mecanismo de respaldo ante fallos en el dispositivo de almacenamiento.
+
+Para ello utilizaremos las herramientas de RAID y LVM. En particular, raid 1, para agrupar dos discos físicos en un único dispositivo virtual, de manera que si uno de ellos se avería o falla el sistema continue operando sin pérdida de información gracias a la replica exacta en el segundo disco. Y sobre esta base segura del RAID, implementaremos LVM para gestionae el espacio de forma flexible, mediante physical volumes, volume groups y logical volumes. Además podremos expadir la capacidad de almacenamiento "en caliente" sin interrumpir el servicio. 
+
+#### Pasos realizados y Capturas de pantalla:
+
+#### RAID: 
+
+1. Añadir los discos en Virtual Box.
+2. Comprobamos que se encuentran disponibles con lsblk.
+   
+![Primer lsblk para comprobar que se han creado los discos](img/P2_primer_lsblk.png)
+
+3. Creamos el raid utilizando el comando mdadm.
+
+![Creamos el raid utilizando el comando mdadm.](img/P2_creacionraid_mdadm.png)
+
+* `--create /dev/md0` : Define el nombre del nuevo dispositivo RAID en el sistema.
+* `--level=1` : Selecciona el nivel RAID 1, esencial para datos críticos ya que si un disco falla, la información permanece intacta en el otro.
+* `--raid-devices=2` : Indica el número de discos físicos que componen el array.
+* `/dev/sdb /dev/sdc` : Son los "ingredientes" o dispositivos de bloque que hemos añadido previamente.
+  
+4. Comprobamos el raid se ha creado correctamente.
+![alt text](P2_estado_del_raid_tras_crearlo_cat.png)
+
+Podemos observar que el raid se ha creado correctamemte pues:
+* `md0 : active raid1 sdc[1] sdb[0]` : Confirma que estan activos y participando en "espejo".
+* `[UU]` :  Ambos discos estan operativos: U (Up)
 
 
-#### Pasos realizados:
-1. Descarga de la ISO.
-2. Configuración de red en modo Puente/NAT.
-3. Creación del usuario administrador.
-4. Configuración de Red en el Servidor (IPs)
-5. Personalización del prompt
-6. Validación de la conectividad
+![alt text](P2_estado_raid1_mdadm_detail.png)
 
-#### Capturas de pantalla:
-![MV: IPs configurada en la tarjeta NAT y Host-Only](img/ip_addr_show_direccionesdelamv.png)
-> *MV: IPs configurada en la tarjeta NAT y Host-Only.*
+Tras la ejecución de `mdadm`, se ha verificado mediante `mdadm --detail` que el estado del array es active y que cuenta con dos unidades sincronizadas (`active sync`). Esto cumple con el requisito de proporcionar un mecanismo de respaldo ante fallos físicos en el almacenamiento.
 
-![Host: IP configurada en la tarjeta Host-Only](img/ipconfig_direccion_host.png)
-> *Host: IP configurada en la tarjeta Host-Only.*
+5. Persistencia en la configuración. 
 
-![MV: Ping efectivo al Host.](img/ping_desde_MV_al_Host.png)
-> *MV: Ping efectivo al Host.*
+Para realizar la configuración del RAID y la persistencia en `/etc/mdadm.conf`, se han empleado privilegios de superusuario mediante el comando `sudo`, garantizando así el acceso a los archivos de configuración del sistema y a los dispositivos de bloque.
 
-![MV: Ping efectivo a www.ugr.es](img/ping_desde_MV_a_ugr.png)
-> *MV: Ping efectivo a www.ugr.es.*
-
-![Host: Ping efectivo a la MV.](img/ping_desde_Host_a_MV.png)
-> *Host: Ping efectivo a la MV.*
----
-
-### Práctica 2: Gestión de Usuarios y Permisos
-En esta práctica he configurado los grupos de trabajo y permisos de carpetas.
-
-#### Comandos utilizados:
-```bash
-# Crear un nuevo grupo
-sudo groupadd ingenieros
-
-# Añadir mi usuario al grupo
-sudo usermod -aG ingenieros mi_usuario
+![alt text](image.png)
