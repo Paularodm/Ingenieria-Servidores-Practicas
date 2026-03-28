@@ -34,6 +34,7 @@ Para ello utilizaremos las herramientas de RAID y LVM. En particular, raid 1, pa
 * `/dev/sdb /dev/sdc` : Son los "ingredientes" o dispositivos de bloque que hemos añadido previamente.
   
 4. Comprobar el raid se ha creado correctamente.
+
 ![alt text](img/P2_estado_del_raid_tras_crearlo_cat.png)
 
 Podemos observar que el raid se ha creado correctamemte pues:
