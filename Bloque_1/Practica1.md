@@ -14,9 +14,9 @@ El objetivo de esta primera prática es la instalación y configuración inicial
 1. Descarga de la ISO.
 2. Configuración de red en modo Puente/NAT.
 3. Creación del usuario administrador.
-4. Configuración de Red en el Servidor (IPs)
-5. Personalización del prompt
-6. Validación de la conectividad
+4. Configuración de Red en el Servidor (IPs).
+5. Personalización del prompt.
+6. Validación de la conectividad.
 
 #### Capturas de pantalla:
 ![MV: IPs configurada en la tarjeta NAT y Host-Only](img/ip_addr_show_direccionesdelamv.png)

@@ -47,8 +47,9 @@ navegador.
 1. Modificación del puerto en el que se ejecuta SSHD:
    
    1.1. Elegimos un puerto que no se este usando, por ejemplo yo he cogido el 2026.<br>
+   Comprobamos que no se este usando en el archivo `/etc/services`.<br>
    1.2. Actualizamos el firewall para que permita el acceso a dicho puerto: `firewall-cmd --permanent --add-port=<puerto>/tcp`. <br>
-   1.3. Cambiamos el puerto de acceso sshd en el archivo `/etc/ssh/sshd_config` . Inidcamos que tiene acceso seguro con `semanage` y actualizamos con `sudo systemctl restart`. <br>
+   1.3. Cambiamos el puerto de acceso sshd en el archivo `/etc/ssh/sshd_config` . Indicamos que tiene acceso seguro con `semanage` y actualizamos con `sudo systemctl restart`. <br>
 
 2. Conceder acceso remoto por llave pública al usuario paula.
    

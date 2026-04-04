@@ -62,7 +62,7 @@ Este paso prepara el dispositivo RAID para ser integrado en LVM.
 
 Para ver si se ha creado correctamente: `sudo pvdisplay`
 
-![pvdisplay](P2_pvdisplay.png)
+![pvdisplay](img/P2_pvdisplay.png)
 
 Podemos ver que se ha creado el pv, pero que no tiene asociado ningún vg: `Allocatable=NO`
 
@@ -114,3 +114,5 @@ Vinculamos el dispositivo lógico a la carpeta creada. Y ejecutaremos `df -h` pa
 Editamos el archivo `/etc/fstab` para que el servicio no falle tras reiniciar el sistema, es decir, se mantega el montaje.
 
 ![modificacion /etc/fstab para persistencia](img/P2_persistencia.png)
+
+[def]: img/P2_pvcreate.png
