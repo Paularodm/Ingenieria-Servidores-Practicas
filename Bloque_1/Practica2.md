@@ -28,6 +28,7 @@ Para ello utilizaremos las herramientas de RAID y LVM. En particular, raid 1, pa
 
 ![Creamos el raid utilizando el comando mdadm.](img/P2_creacionraid_mdadm.png)
 
+* `mdadm`: Herramienta para gestionar RAID en Linux.
 * `--create /dev/md0` : Define el nombre del nuevo dispositivo RAID en el sistema.
 * `--level=1` : Selecciona el nivel RAID 1, esencial para datos críticos ya que si un disco falla, la información permanece intacta en el otro.
 * `--raid-devices=2` : Indica el número de discos físicos que componen el array.
@@ -44,7 +45,7 @@ Podemos observar que el raid se ha creado correctamemte pues:
 
 ![alt text](img/P2_estado_raid1_mdadm_detail.png)
 
-Tras la ejecución de `mdadm`, se ha verificado mediante `mdadm --detail` que el estado del array es active y que cuenta con dos unidades sincronizadas (`active sync`). Esto cumple con el requisito de proporcionar un mecanismo de respaldo ante fallos físicos en el almacenamiento.
+Tras la ejecución de `mdadm`, se ha verificado mediante `mdadm --detail` que el estado del array es `active` y que cuenta con dos unidades sincronizadas `active sync`. De esta manera, estamos cumpliendo con el requisito de proporcionar un mecanismo de respaldo ante fallos físicos en el almacenamiento.
 
 5. Persistencia en la configuración. 
 
@@ -53,6 +54,10 @@ Para realizar la configuración del RAID y la persistencia en `/etc/mdadm.conf`,
 ![alt text](img/image.png)
 
 #### LVM:
+
+Una vez hemos configurado la base segura mediante RAID 1, que nos garantiza la réplica exacta de los datos y la tolerancia a fallos físicos, vamos a implementar LVM para dotar al sistema de la flexibilidad necesaria ante un crecimiento considerable del volumen de información.
+
+Como punto de montaje definitivo se ha seleccionado el directorio /var ya que según el estándar de jerarquía de ficheros /var es el destino de datos variables y dinámicos, lo que encaja con el perfil de un sistema de gestión documental. Además, al utilizar LVM, podremos expandir el espacio de /var "en caliente" si el volumen de documentos crece más de lo previsto y aislar los datos del servicio en su propio volumen lógico. Evitamos así que un crecimiento excesivo de archivos bloquee la partición raíz (/), garantizando la máxima disponibilidad del servidor.
 
 6. Crear el physical volume (pv).
 
@@ -69,7 +74,9 @@ Podemos ver que se ha creado el pv, pero que no tiene asociado ningún vg: `Allo
 
 7. Crear el volume group (vg).
 
-Usaremos este componente para agrupar el espacio de almacenamiento del RAID, para gestionar de forma centralizada los logical volumes (lv) que se dispongan sobre él. No mezclaremos la información almacenada en los RAID con la que no lo esta.
+Usaremos este componente para agrupar el espacio de almacenamiento del RAID, para gestionar de forma centralizada los logical volumes (lv) que se dispongan sobre él.
+
+Es una buena práctica separar pv de distintas características en vg distintos. En nuestro caso, no mezclaremos en un mismo vg dispositivos que emplean RAID y dispositivos que no. Si hacemos esto cuando se escriba en cierto lv, como no se sabe en qué pv está y entonces no sabremos si se ha empleado el RAID o no.
 
 ![vgcreate and vgdisplay](img/P2_vgcreate_and_vgdisplay.png)
 
@@ -97,22 +104,53 @@ Hasta ahora, tenemos el "contenedor" de almacenamiento, pero el sistema operativ
 
 ![mkfs.ext4](img/P2_mkfs.png)
 
-10. Crear un Punto de Montaje. 
+10. Preparación del Punto de Montaje Temporal
 
-Necesitamos una ubicación en la estructura estándar de directorios de Linux para acceder a los datos.
+Montamos el lv en `/mnt` para tener un lugar donde volcar los datos de `/var` antes de la sustitución oficial.
 
-![mkdir punto montaje](img/P2creacion_del_punto_montaje.png)
+![Nuevo mount sobre /mnt](img/P2_nuevo_mount.png)
+![lsblk](img/P2_lsblk_montado_en_mnt.png)
+
+11. Cambio al Modo de Mantenimiento
     
-11. Montaje Manual del lv y Verificación.
+Necesitamos dar este paso ya que `/var` contiene bases de datos y logs que se escriben cada segundo. Si copiamos `/var` mientras el sistema está en modo multiusuario, la copia podría ser inconsistente.
 
-Vinculamos el dispositivo lógico a la carpeta creada. Y ejecutaremos `df -h` para verificar que el nuevo disco de 5GB aparece montado en la ruta correcta.
+Comando: `sudo systemctl isolate runlevel1.target`
 
-![mount](img/P2_mount.png)
+12. Sincronización de Datos
 
-12.  Persistencia en la configuración.
+Ahora si, copiamos el contenido de `/var` en `/mnt` asegurándonos de mantener los metadatos.
 
+![Contendio de var copiado](img/P2_copia_contenido_var_mnt.png)
+
+Podemos ver que ambos directorios tienen el mismo numero de archivos, lo que es un indicador de que hubo exito. 
+
+![comparacion var y mnt](img/P2_comprobacion_del_n_arch_en_var_mnt.png)
+
+De todas formas, comprobamos con df -h: 
+
+![df -h](img/P2_df-h_tras_copia_var.png)
+
+13. Sustitución del Directorio /var
+    
+Ahora que los datos están seguros en el LVM sobre RAID 1, podemos "mover" el `/var` original para que el sistema use uno nuevo. 
+Renombramos el original para no borrarlo y creamos el nuevo punto de entrada.
+
+![alt text](img/P2_cambio_var_a_varold_y_creo_nuevo_var.png)
+
+14. Montaje Definitivo
+    
+Desvinculamos el RAID de la carpeta temporal y lo anclamos a su destino final. 
+
+![alt text](img/P2_desmonto_en_mnt.png)
+
+![alt text](img/P2_monto_en_var.png)
+
+![alt text](img/P2_df-h_definitivo_var.png)
+
+15. Persistencia en la configuración.
+    
 Editamos el archivo `/etc/fstab` para que el servicio no falle tras reiniciar el sistema, es decir, se mantega el montaje.
 
-![modificacion /etc/fstab para persistencia](img/P2_persistencia.png)
+![/etc/fstab](img/P2_etc_fstab_var.png)
 
-[def]: img/P2_pvcreate.png
