@@ -1,7 +1,7 @@
 # Memoria de Prácticas: Ingeniería de Servidores
 **Autor:** Paula Rodriguez Montoro
 **Curso:** 2025/2026
-**Repositorio:** [Enlace a mi GitHub](https://github.com/tu-usuario/tu-repo)
+**Repositorio:** [Enlace a mi GitHub](https://github.com/Paularodm/Ingenieria-Servidores-Practicas)
 
 ---
 
@@ -156,3 +156,4 @@ Editamos el archivo `/etc/fstab` para que el servicio no falle tras reiniciar el
 
 ![lsblk](img/P2_fina_lsblk.png)
 
+---

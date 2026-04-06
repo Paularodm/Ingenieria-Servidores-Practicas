@@ -1,7 +1,7 @@
 # Memoria de Prácticas: Ingeniería de Servidores
 **Autor:** Paula Rodriguez Montoro
 **Curso:** 2025/2026
-**Repositorio:** [Enlace a mi GitHub](https://github.com/tu-usuario/tu-repo)
+**Repositorio:** [Enlace a mi GitHub](https://github.com/Paularodm/Ingenieria-Servidores-Practicas)
 
 ---
 
@@ -12,7 +12,7 @@ El objetivo de esta práctica es el despliegue automatizado de una infraestructu
 
 Partiendo de dos servidores, configurados de acuerdo a los requerimientos del apartado 2.
 
-1. Añadimos un usuario con acceso por SSH con llave pública y con privilegios para ejecutar
+1. Añadimos un usuario (admin) con acceso por SSH con llave pública y con privilegios para ejecutar
 comandos de root sin contraseña.
 
 ![añado_user_apache_angel](img/P4_añado_user_apache_angel.png)
@@ -134,3 +134,5 @@ En la captura se observa el uso del comando ls -R para listar el contenido del p
 * `miPlaybook.yaml`: Lógica de automatización.
 * `ejecutarPlaybook.sh`: Script de lanzamiento.
 * `files/`: Carpeta contenedora de las llaves públicas.
+
+---
