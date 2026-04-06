@@ -154,3 +154,5 @@ Editamos el archivo `/etc/fstab` para que el servicio no falle tras reiniciar el
 
 ![/etc/fstab](img/P2_etc_fstab_var.png)
 
+![lsblk](img/P2_fina_lsblk.png)
+

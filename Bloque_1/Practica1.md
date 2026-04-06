@@ -31,7 +31,10 @@ El objetivo de esta primera prática es la instalación y configuración inicial
 ![MV: Ping efectivo a www.ugr.es](img/ping_desde_MV_a_ugr.png)
 > *MV: Ping efectivo a www.ugr.es.*
 
-![Host: Ping efectivo a la MV.](img/ping_desde_Host_a_MV.png)
+![Host: Ping efectivo a la MV.](img/P1_ping_efectivo_mv.png)
 > *Host: Ping efectivo a la MV.*
+
+![Host: Conexión por ssh a la MV.](img/P1_conexion_ssh.png)
+> *Host: Conexión por ssh a la MV.*
 ---
 

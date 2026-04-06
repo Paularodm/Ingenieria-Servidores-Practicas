@@ -53,7 +53,7 @@ navegador.
 
 2. Conceder acceso remoto por llave pública al usuario paula.
    
-   1.1. Generación del par de llaves en el Host (Ordenador Anfitrión).<br>
+   1.1. Generación del par de llaves en el Host .<br>
    El primer paso es crear nuestra identidad digital basada en criptografía asimétrica.
    Ejecutamos en la terminal del anfitrión el comando `ssh-keygen -t rsa -b 4096`.<br>
    1.2. Transferencia de la llave pública al servidor.<br>
